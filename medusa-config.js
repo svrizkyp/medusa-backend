@@ -28,21 +28,37 @@ const ADMIN_CORS =
 // CORS to avoid issues when consuming Medusa from a client
 const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 
-const DATABASE_TYPE = process.env.DATABASE_TYPE || "sqlite";
-const DATABASE_URL = process.env.DATABASE_URL || "postgres://localhost/medusa-store";
+// Database URL (here we use a local database called medusa-development)
+const DATABASE_URL =
+  process.env.DATABASE_URL || "postgres://postgres:Kalamani2@localhost:5432/medusa";
+const DATABASE_TYPE = process.env.DATABASE_TYPE || "postgres";
+
+// const DATABASE_TYPE = process.env.DATABASE_TYPE || "sqlite";
+// const DATABASE_URL = process.env.DATABASE_URL || "postgres://localhost/medusa-store";
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
   // To enable the admin plugin, uncomment the following lines and run `yarn add @medusajs/admin`
-  // {
-  //   resolve: "@medusajs/admin",
-  //   /** @type {import('@medusajs/admin').PluginOptions} */
-  //   options: {
-  //     autoRebuild: true,
-  //   },
-  // },
+  {
+    resolve: `medusa-file-s3`,
+    options: {
+      s3_url: process.env.S3_URL,
+      bucket: process.env.S3_BUCKET,
+      region: process.env.S3_REGION,
+      access_key_id: process.env.S3_ACCESS_KEY_ID,
+      secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
+      aws_config_option: {},
+    },
+  },
+  {
+    resolve: "@medusajs/admin",
+    /** @type {import('@medusajs/admin').PluginOptions} */
+    options: {
+      
+    },
+  },
 ];
 
 const modules = {
