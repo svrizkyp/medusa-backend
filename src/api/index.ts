@@ -9,6 +9,7 @@ import * as bodyParser from "body-parser"
 export default () => {
   const router = Router();
 
+//Ecommerce Type
   router.post('/store/ecommerce-type', bodyParser.json(), async (req, res) => {
     const astroService = req.scope.resolve('astroService');
     const { name, description, image } = req.body;
@@ -84,6 +85,118 @@ export default () => {
     const itemId = req.params.id;
     await astroService.updateLineItem(itemId, note);
     res.json({msg: 'Success',});
+  });
+
+  //Custom Feature
+  router.post('/store/custom-feature', bodyParser.json(), async (req, res) => {
+    const customFeatureService = req.scope.resolve('customFeatureService');
+    const { cart_id, feature_name, feature_desc, complexity, ui, be, url_web } = req.body;
+    if (!cart_id) {
+      res.status(400).json({
+        msg: 'Cart id not supplied.',
+      });
+      return;
+    }
+    if (!feature_name) {
+      res.status(400).json({
+        msg: 'Feature name not supplied.',
+      });
+      return;
+    }
+    if (!feature_desc) {
+      res.status(400).json({
+        msg: 'Feature desc not supplied.',
+      });
+      return;
+    }
+    if (complexity == null) {
+      res.status(400).json({
+        msg: 'Complexity not supplied.',
+      });
+      return;
+    }
+    if (ui == null) {
+      res.status(400).json({
+        msg: 'User interface not supplied.',
+      });
+      return;
+    }
+    if (be == null) {
+      res.status(400).json({
+        msg: 'Backend not supplied.',
+      });
+      return;
+    }
+    if (!url_web) {
+      res.status(400).json({
+        msg: 'Url web not supplied.',
+      });
+      return;
+    }
+    await customFeatureService.create(cart_id, feature_name, feature_desc, complexity, ui, be, url_web);
+    res.json(await customFeatureService.list());
+  });
+
+  router.post('/store/custom-feature/:id', bodyParser.json(), async (req, res) => {
+    const customFeatureService = req.scope.resolve('customFeatureService');
+    const { cart_id, feature_name, feature_desc, complexity, ui, be, url_web } = req.body;
+    const custom_id = req.params.id;
+    if (!cart_id) {
+      res.status(400).json({
+        msg: 'Cart id not supplied.',
+      });
+      return;
+    }
+    if (!feature_name) {
+      res.status(400).json({
+        msg: 'Feature name not supplied.',
+      });
+      return;
+    }
+    if (!feature_desc) {
+      res.status(400).json({
+        msg: 'Feature desc not supplied.',
+      });
+      return;
+    }
+    if (complexity == null) {
+      res.status(400).json({
+        msg: 'Complexity not supplied.',
+      });
+      return;
+    }
+    if (ui == null) {
+      res.status(400).json({
+        msg: 'User interface not supplied.',
+      });
+      return;
+    }
+    if (be == null) {
+      res.status(400).json({
+        msg: 'Backend not supplied.',
+      });
+      return;
+    }
+    if (!url_web) {
+      res.status(400).json({
+        msg: 'Url web not supplied.',
+      });
+      return;
+    }
+    await customFeatureService.update(custom_id, cart_id, feature_name, feature_desc, complexity, ui, be, url_web);
+    res.json(await customFeatureService.list());
+  });
+
+  router.get('/store/custom-feature', async (req, res) => {
+    const customFeatureService = req.scope.resolve('customFeatureService');
+    res.json(await customFeatureService.list());
+  });
+
+  router.delete('/store/custom-feature/:id', async (req, res) => {
+    const customFeatureService = req.scope.resolve('customFeatureService');
+    const custom_id = req.params.id;
+    await customFeatureService.delete(custom_id);
+    res.json(await customFeatureService.list());
   });
 
   return router;

@@ -5,26 +5,26 @@ import { generateEntityId } from "@medusajs/medusa/dist/utils"
 @Entity()
 export class CustomFeature extends BaseEntity {
 
-    @Column({type: 'varchar'})
-    cart_id: string | null;
+    @Column()
+    cart_id: string;
 
-    @Column({type: 'varchar'})
-    feature_name: string | null;
+    @Column()
+    feature_name: string;
 
-    @Column({type: 'varchar'})
-    feature_desc: string | null;
+    @Column()
+    feature_desc: string;
 
-    @Column({type: 'varchar'})
-    complexity: number | null;
+    @Column()
+    complexity: number;
 
-    @Column({type: 'varchar'})
-    ui: boolean | null;
+    @Column()
+    ui: number;
 
-    @Column({type: 'varchar'})
-    be: boolean | null;
+    @Column()
+    be: number;
 
-    @Column({type: 'varchar'})
-    url_web: string | null;
+    @Column()
+    url_web: string;
 
     @BeforeInsert()
     private beforeInsert(): void {
