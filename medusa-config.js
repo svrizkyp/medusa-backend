@@ -96,6 +96,9 @@ if (DATABASE_URL && DATABASE_TYPE === "postgres") {
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
+  featureFlags: {
+    product_categories: true,
+  },
   projectConfig,
   plugins,
 	modules,

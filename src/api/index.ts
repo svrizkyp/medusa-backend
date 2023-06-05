@@ -199,5 +199,31 @@ export default () => {
     res.json(await customFeatureService.list());
   });
 
+    //Custom Order
+    router.post('/store/custom-order/:id', bodyParser.json(), async (req, res) => {
+    const customOrderService = req.scope.resolve('customOrderService');
+    const { ecommerce_type_id, custom_feature, themes_id, payment_term } = req.body;
+    const custom_order_id = req.params.id;
+    if (!ecommerce_type_id) {
+      res.status(400).json({
+        msg: 'Ecommerce type not supplied.',
+      });
+      return;
+    }
+    if (!themes_id) {
+      res.status(400).json({
+        msg: 'Themes not supplied.',
+      });
+      return;
+    }
+    if (!payment_term) {
+      res.status(400).json({
+        msg: 'Payment term not supplied.',
+      });
+      return;
+    }
+    await customOrderService.update(custom_order_id, ecommerce_type_id, custom_feature, themes_id, payment_term);
+    res.json({msg: 'Success',});
+  });
   return router;
 };

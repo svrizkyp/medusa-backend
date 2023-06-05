@@ -25,3 +25,12 @@ export declare module "@medusajs/medusa/dist/models/line-item" {
     note: string;
   }
 }
+
+export declare module "@medusajs/medusa/dist/models/order" {
+  declare interface Order {
+    ecommerce_type_id: number;
+    custom_feature: boolean;
+    themes_id: string;
+    payment_term: string;
+  }
+}
